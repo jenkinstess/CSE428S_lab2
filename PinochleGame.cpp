@@ -78,3 +78,82 @@ void PinochleGame::collect_all() {
         _pDeck.collect(*it);
     }
 }
+
+std::ostream& operator<<(std::ostream& os, const PinochleMelds& pinmelds) {
+   
+    switch(pinmelds){
+
+        case PinochleMelds::dix:
+            os << "dix " << PinochleMelds::dix;
+            break;
+
+        case PinochleMelds::offsuitmarriage:
+            os << "offsuitmarriage " << PinochleMelds::offsuitmarriage;
+            break;
+
+        case PinochleMelds::fortyjacks:
+            os << "fortyjacks " << PinochleMelds::fortyjacks;
+            break;
+
+        case PinochleMelds::pinochle:
+            os << "pinochle " << PinochleMelds::pinochle;
+            break;
+
+        case PinochleMelds::insuitmarriage:
+            os << "insuitmarriage " << PinochleMelds::insuitmarriage;
+            break;
+
+        case PinochleMelds::sixtyqueens:
+            os << "sixtyqueens " << PinochleMelds::sixtyqueens;
+            break;
+
+        case PinochleMelds::eightykings:
+            os << "eightykings " << PinochleMelds::eightykings;
+            break;
+
+        case PinochleMelds::hundredaces:
+            os << "hundredaces " << PinochleMelds::hundredaces;
+            break;
+
+        case PinochleMelds::insuitrun:
+            os << "insuitrun " << PinochleMelds::insuitrun;
+            break;
+
+        case PinochleMelds::doublepinochle:
+            os << "doublepinochle " << PinochleMelds::doublepinochle;
+            break;
+
+        case PinochleMelds::fourhundredjacks:
+            os << "fourhundredjacks " << PinochleMelds::fourhundredjacks;
+            break;
+
+        case PinochleMelds::sixhundredqueens:
+            os << "sixhundredqueens " << PinochleMelds::sixhundredqueens;
+            break;
+
+        case PinochleMelds::eighthundredkings:
+            os << "eighthundredkings " << PinochleMelds::eighthundredkings;
+            break;
+
+        case PinochleMelds::thousandaces:
+            os << "thousandaces " << PinochleMelds::thousandaces;
+            break;
+
+        case PinochleMelds::insuitdoublerun:
+            os << "insuitdoublerun " << PinochleMelds::insuitdoublerun;
+            break;
+
+        default:
+            os << "?";
+            break;
+
+    }
+
+    return os;
+}
+
+void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits>& hand, std::vector< CardSet<PinochleMelds> > combList) {
+    CardSet<PinochleRank, Suits> locHand(hand);
+
+    std::vector<int> 
+}

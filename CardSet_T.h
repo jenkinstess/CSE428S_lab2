@@ -13,6 +13,8 @@
 
 template <typename R, typename S> class CardSet{
     public:
+        CardSet() = default;
+        CardSet(CardSet&);
         void print(std::ostream& os, size_t size);
         CardSet<R,S>& operator>>(CardSet<R,S>& cs);
         bool is_empty();

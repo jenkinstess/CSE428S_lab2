@@ -9,6 +9,16 @@
 
 #define EMPTYSET 0
 
+// Deep copy constructor
+CardSet::CardSet(CardSet& a) {
+
+    typename std::vector< Card<R, S> >::iterator it;
+    for (it = a.cards.begin(); it < a.cards.end(); ++it){
+        cards.push_back(*it);
+    }
+    
+}
+
 // Prints out the cards, checks that there are cards to print out to begin with. 
 template <typename R, typename S>
 void CardSet<R,S>::print(std::ostream& os, size_t size){

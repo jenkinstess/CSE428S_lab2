@@ -33,6 +33,11 @@ struct Card{
 template <typename R, typename S> 
 std::ostream& operator<<(std::ostream& os, const Card<R,S>& card);
 
+template <typename R, typename S> 
+bool lessThanRank(const Card&, const Card&);
+
+template <typename R, typename S> 
+bool lessThanSuit(const Card&, const Card&);
 
 #ifdef TEMPLATE_HEADERS_INCLUDE_SOURCE
 #include "Card_T.cpp"

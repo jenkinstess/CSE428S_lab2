@@ -10,14 +10,28 @@
 #include "CardSet_T.h"
 #include "Game.h"
 
+enum class PinochleMelds{
+    dix = 10, offsuitmarriage = 20, fortyjacks = 40, pinochle = 40,
+    insuitmarriage = 40, sixtyqueens = 60, eightykings = 80, 
+    hundredaces = 100, insuitrun = 150, doublepinochle = 300,
+    fourhundredjacks = 400, sixhundredqueens = 600, 
+    eighthundredkings = 800, thousandaces = 1000, insuitdoublerun = 1500
+};
+
+std::ostream& operator<<(std::ostream& os, const PinochleMelds&);
+
 class PinochleGame : public Game{
     public:
         PinochleGame(int argc, const char* argv[]);
         virtual int play();
+
     protected:
         PinochleDeck _pDeck; 
         virtual void deal();
         std::vector< CardSet<PinochleRank, Suits> > _curHand;
         void print_players();
         void collect_all();
+
+    private:
+        void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector< CardSet<PinochleMelds> >);
 };

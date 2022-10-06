@@ -14,3 +14,23 @@ std::ostream& operator<<(std::ostream& os, const Card<R, S>& card){
     os << card.rank << card.suit;
     return os;
 }
+
+template <typename R, typename S> 
+bool lessThanRank(const Card& a, const Card& b) {
+    if (a._rank < b._rank || (a._rank == b._rank) && (a._suit < b._suit)) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+template <typename R, typename S> 
+bool lessThanSuit(const Card& a, const Card& b) {
+    if (a._suit < b._suit || (a._rank < b._rank) && (a._suit == b._suit)) {
+        return true;
+    }
+    else{
+        return false;
+    }
+}
