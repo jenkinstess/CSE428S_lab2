@@ -1,6 +1,6 @@
 Tess Jenkins (jenkinstess@wustl.edu)
 Sam Saxon (s.saxon@wustl.edu)
-Lab 1
+Lab 2
 
 Errors:
     - Syntax errors throughout building --> forgotten semi colons, forgotten parentheses, incorrect spacing, brackets left out
