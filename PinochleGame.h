@@ -11,12 +11,14 @@
 #include "Game.h"
 
 enum class PinochleMelds{
-    dix = 10, offsuitmarriage = 20, fortyjacks = 40, pinochle = 40,
-    insuitmarriage = 40, sixtyqueens = 60, eightykings = 80, 
-    hundredaces = 100, insuitrun = 150, doublepinochle = 300,
-    fourhundredjacks = 400, sixhundredqueens = 600, 
-    eighthundredkings = 800, thousandaces = 1000, insuitdoublerun = 1500
+    dix, offsuitmarriage, fortyjacks, pinochle,
+    insuitmarriage, sixtyqueens, eightykings, 
+    hundredaces, insuitrun, doublepinochle,
+    fourhundredjacks, sixhundredqueens, 
+    eighthundredkings, thousandaces, insuitdoublerun
 };
+
+const int meld_values[] = {10, 20, 40, 40, 40, 60, 80, 100, 150, 300, 400, 600, 800, 1000, 1500};
 
 std::ostream& operator<<(std::ostream& os, const PinochleMelds&);
 
@@ -33,5 +35,5 @@ class PinochleGame : public Game{
         void collect_all();
 
     private:
-        void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector< CardSet<PinochleMelds> >);
+        void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector<PinochleMelds>);
 };

@@ -34,10 +34,10 @@ template <typename R, typename S>
 std::ostream& operator<<(std::ostream& os, const Card<R,S>& card);
 
 template <typename R, typename S> 
-bool lessThanRank(const Card&, const Card&);
+bool lessThanRank(const Card<R,S>&, const Card<R,S>&);
 
 template <typename R, typename S> 
-bool lessThanSuit(const Card&, const Card&);
+bool lessThanSuit(const Card<R,S>&, const Card<R,S>&);
 
 #ifdef TEMPLATE_HEADERS_INCLUDE_SOURCE
 #include "Card_T.cpp"

@@ -141,3 +141,7 @@ void HoldEmGame::collect_all() {
 
     deck.collect(board);
 }
+
+HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs) {
+    return HoldEmHandRank::undefined;
+}

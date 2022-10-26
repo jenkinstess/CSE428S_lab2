@@ -14,10 +14,11 @@
 template <typename R, typename S> class CardSet{
     public:
         CardSet() = default;
-        CardSet(CardSet&);
+        CardSet(const CardSet<R,S>& old);
         void print(std::ostream& os, size_t size);
         CardSet<R,S>& operator>>(CardSet<R,S>& cs);
         bool is_empty();
+        static const std::vector< Card <R,S> > CardSet<R,S>::* get_cards();
     protected:
         std::vector< Card <R, S> > cards;
 };

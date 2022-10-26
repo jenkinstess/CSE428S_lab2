@@ -152,8 +152,8 @@ std::ostream& operator<<(std::ostream& os, const PinochleMelds& pinmelds) {
     return os;
 }
 
-void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits>& hand, std::vector< CardSet<PinochleMelds> > combList) {
-    CardSet<PinochleRank, Suits> locHand(hand);
+void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits>& hand, std::vector<PinochleMelds> combList) {
+    //CardSet<PinochleRank, Suits> locHand(hand);
 
-    std::vector<int> 
+    //std::vector<int> 
 }

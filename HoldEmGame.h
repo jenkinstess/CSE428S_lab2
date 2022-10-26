@@ -14,6 +14,10 @@ enum class HoldEmState{
     preflop, flop, turn, river, undefined
 };
 
+enum class HoldEmHandRank{
+    xhigh, pair, twopair, threeofakind, straight, flush, fullhouse, fourofakind, straightflush, undefined
+};
+
 class HoldEmGame : public Game {
 
     public:
@@ -27,5 +31,7 @@ class HoldEmGame : public Game {
         CardSet<HoldEmRank, Suits> board;
         void print_players();
         void collect_all();
+    private:
+        HoldEmHandRank holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs);
 
 };

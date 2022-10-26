@@ -10,12 +10,10 @@
 #define EMPTYSET 0
 
 // Deep copy constructor
-CardSet::CardSet(CardSet& a) {
+template <typename R, typename S>
+CardSet<R,S>::CardSet(const CardSet<R,S>& old) {
 
-    typename std::vector< Card<R, S> >::iterator it;
-    for (it = a.cards.begin(); it < a.cards.end(); ++it){
-        cards.push_back(*it);
-    }
+    cards = old.cards;
     
 }
 
@@ -58,4 +56,9 @@ CardSet<R,S>& CardSet<R,S>::operator>>(CardSet<R,S>& cs) {
 template <typename R, typename S>
 bool CardSet<R,S>::is_empty() {
     return cards.empty();
+}
+
+template <typename R, typename S>
+const std::vector< Card <R,S> > CardSet<R,S>::* CardSet<R,S>::get_cards() {
+    return &CardSet<R,S>::cards;
 }
