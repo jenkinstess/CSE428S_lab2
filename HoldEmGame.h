@@ -18,6 +18,8 @@ enum class HoldEmHandRank{
     xhigh, pair, twopair, threeofakind, straight, flush, fullhouse, fourofakind, straightflush, undefined
 };
 
+std::ostream& operator<<(std::ostream& os, const HoldEmHandRank& r);
+
 class HoldEmGame : public Game {
 
     public:

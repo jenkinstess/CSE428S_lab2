@@ -145,3 +145,52 @@ void HoldEmGame::collect_all() {
 HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs) {
     return HoldEmHandRank::undefined;
 }
+
+std::ostream& operator<<(std::ostream& os, const HoldEmHandRank& r) {
+   
+    switch(r){
+
+        case HoldEmHandRank::xhigh:
+            os << "xhigh ";
+            break;
+
+        case HoldEmHandRank::pair:
+            os << "pair ";
+            break;
+
+        case HoldEmHandRank::twopair:
+            os << "twopair ";
+            break;
+
+        case HoldEmHandRank::threeofakind:
+            os << "threeofakind ";
+            break;
+
+        case HoldEmHandRank::straight:
+            os << "straight ";
+            break;
+
+        case HoldEmHandRank::flush:
+            os << "flush ";
+            break;
+
+        case HoldEmHandRank::fullhouse:
+            os << "fullhouse ";
+            break;
+
+        case HoldEmHandRank::fourofakind:
+            os << "fourofakind ";
+            break;
+
+        case HoldEmHandRank::straightflush:
+            os << "straightflush ";
+            break;
+
+        default:
+            os << "?";
+            break;
+
+    }
+
+    return os;
+}
