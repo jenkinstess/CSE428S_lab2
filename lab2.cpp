@@ -43,7 +43,7 @@ int main(int argc, const char* argv[]) {
             }
     }
     else{
-        std::cout << "usage: ./lab1 gamename playername1 playername2 ..." << std::endl;
+        std::cout << "usage: ./lab2 gamename playername1 playername2 ..." << std::endl;
         return INCORRECTINPUT;
     }
 
