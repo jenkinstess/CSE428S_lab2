@@ -164,8 +164,10 @@ void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits
 
     int numAce = 0;
 
+    std::vector< Card <PinochleRank, Suits> > CardSet<PinochleRank, Suits>::*temp_cards = locHand.get_cards();
+
     typename std::vector< Card<PinochleRank, Suits> >::iterator it;
-    for (it = (locHand.get_cards()).begin(); it < (locHand.get_cards()).end(); it++) {
+    for (it = temp_cards.begin(); it < temp_cards.end(); it++) {
         if ((*it).rank == PinochleRank(0)) {
             ++numAce;
         }
