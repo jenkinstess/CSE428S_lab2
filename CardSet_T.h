@@ -18,7 +18,7 @@ template <typename R, typename S> class CardSet{
         void print(std::ostream& os, size_t size);
         CardSet<R,S>& operator>>(CardSet<R,S>& cs);
         bool is_empty();
-        static const std::vector< Card <R,S> > CardSet<R,S>::* get_cards();
+        static std::vector< Card <R,S> > CardSet<R,S>::* get_cards();
     protected:
         std::vector< Card <R, S> > cards;
 };

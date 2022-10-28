@@ -5,6 +5,8 @@
 
 #include "PinochleGame.h"
 #include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
 #define SUCCESS 0
 #define SIZESET 100
 
@@ -159,9 +161,18 @@ std::ostream& operator<<(std::ostream& os, const PinochleMelds& pinmelds) {
 //template <typename R, typename S>
 void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits>& hand, std::vector<PinochleMelds>& combList) {
     CardSet<PinochleRank, Suits> locHand(hand);
-    
 
-    //int numAce = count(locHand.cards.begin(), locHand.cards.end(), Card<PinochleRank[0], Suits>);
+    int numAce = 0;
+
+    typename std::vector< Card<PinochleRank, Suits> >::iterator it;
+    for (it = (locHand.get_cards()).begin(); it < (locHand.get_cards()).end(); it++) {
+        if ((*it).rank == PinochleRank(0)) {
+            ++numAce;
+        }
+    }
+    
+    // Card<PinochleRank, Suits>::Card(PinochleRank(0), Suits) a;
+    // int numAce = std::count((locHand.get_cards())->begin(), (locHand.get_cards())->end(), a);
     //^^ need to figure out different way to access as cards is protected...
     
     //plan
