@@ -3,6 +3,9 @@
 // Tess Jenkins jenkinstess@wustl.edu
 // Contains the definition for the constructor, the deal method, the play method, the collect all method, and the method printing out the players.
 
+#include <cstdint>
+#include <algorithm>
+#include <set>
 #include "HoldEmGame.h"
 #define HAND_SIZE 2
 #define SUCCESS 0
@@ -143,7 +146,79 @@ void HoldEmGame::collect_all() {
 }
 
 HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs) {
-    return HoldEmHandRank::undefined;
+    std::vector< Card<HoldEmRank, Suits> > cards = cs.*(cs.get_cards());
+
+    /* code to test hand evaluation DELETE AT END
+    std::vector< Card<HoldEmRank, Suits> > v;
+    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::clubs));
+    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::five, Suits::clubs));
+    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::diamonds));
+    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::hearts));
+    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::spades));
+    cards = v;*/
+
+    if (cards.size() != 5) {
+        return HoldEmHandRank::undefined;
+    }
+
+    int16_t unique_cards = 0;
+    uint64_t card_freq = 0;
+    std::set<int> suits_present;
+
+    std::vector< Card<HoldEmRank, Suits> >::iterator it;
+    for (it = cards.begin(); it < cards.end(); it++) {
+        int r = (int)((*it).rank);
+        int s = (int)((*it).suit);
+        
+        unique_cards |= (1<<r);
+        card_freq |= ( card_freq + ( 1ULL << (4*r) ) );
+
+        suits_present.insert(s);
+
+    }
+
+    HoldEmHandRank res = HoldEmHandRank::undefined;
+    switch (card_freq % 15) {
+        case 1: // four of a kind
+            res = HoldEmHandRank::fourofakind;
+            break;
+        case 10: // full house
+            res = HoldEmHandRank::fullhouse;
+            break;
+        case 9: // three of a kind
+            res = HoldEmHandRank::threeofakind;
+            break;
+        case 7: // two pair
+            res = HoldEmHandRank::twopair;
+            break;
+        case 6: // pair
+            res = HoldEmHandRank::pair;
+            break;
+        case 5: // high card
+            res = HoldEmHandRank::xhigh;
+            break;
+        default:
+            break;
+    }
+
+    bool is_straight = false;
+
+    //normalize unique_cards to find straights
+    int16_t lsb = unique_cards & (-unique_cards);
+    if ( ((unique_cards / lsb) == 31) || (unique_cards == (15|(1<<12)))) {
+        res = std::max(res, HoldEmHandRank::straight);
+        is_straight = true;
+    }
+
+    if (suits_present.size() == 1) {
+        if (is_straight) {
+            return HoldEmHandRank::straightflush;
+        }
+
+        res = std::max(res, HoldEmHandRank::flush);
+    }
+
+    return res;
 }
 
 std::ostream& operator<<(std::ostream& os, const HoldEmHandRank& r) {
