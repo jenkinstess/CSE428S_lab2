@@ -4,8 +4,14 @@
 // Contains the definition for the constructor, the deal method, the play method, the collect all method, and the method printing out the players.
 
 #include "PinochleGame.h"
+#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
 #define SUCCESS 0
 #define SIZESET 100
+
+static const int meld_values[] = {10, 20, 40, 40, 40, 60, 80, 100, 150, 300, 400, 600, 800, 1000, 1500};
+
 
 // PinochleGame constructor. Pushes all the current players passed in via the command line onto the memeber variable that 
 //  is a vector containing the hands of all the current players
@@ -152,8 +158,32 @@ std::ostream& operator<<(std::ostream& os, const PinochleMelds& pinmelds) {
     return os;
 }
 
-void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits>& hand, std::vector<PinochleMelds> combList) {
-    //CardSet<PinochleRank, Suits> locHand(hand);
+//template <typename R, typename S>
+void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits>& hand, std::vector<PinochleMelds>& combList) {
+    CardSet<PinochleRank, Suits> locHand(hand);
+
+    int numAce = 0;
+
+    std::vector< Card <PinochleRank, Suits> > CardSet<PinochleRank, Suits>::*temp_cards = locHand.get_cards();
+
+    typename std::vector< Card<PinochleRank, Suits> >::iterator it;
+    for (it = temp_cards.begin(); it < temp_cards.end(); it++) {
+        if ((*it).rank == PinochleRank(0)) {
+            ++numAce;
+        }
+    }
+    
+    // Card<PinochleRank, Suits>::Card(PinochleRank(0), Suits) a;
+    // int numAce = std::count((locHand.get_cards())->begin(), (locHand.get_cards())->end(), a);
+    //^^ need to figure out different way to access as cards is protected...
+    
+    //plan
+    // grab the number of aces, kings, queens, and jacks from the hand
+    // if any of those numbers = 8, check the suit, then add that type to the vector
+    // else, if any of those numbers = 6, check the suit, then add that type to the vector
+    // else, if jack AND queen = 2, check the suit, then add that type to the vecotr
+    // else, if jack AND queen = 1, check the suit, then add that type to the vector,
+    // else, nothing added.
 
     //std::vector<int> 
 }

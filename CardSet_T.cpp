@@ -22,7 +22,7 @@ template <typename R, typename S>
 void CardSet<R,S>::print(std::ostream& os, size_t size){
     
     typename std::vector< Card<R, S> >::iterator it;
-    for(it = cards.begin(); it < cards.end(); it++){
+    for (it = cards.begin(); it < cards.end(); it++) {
         if (size == EMPTYSET) {break;}
         --size;
 
@@ -59,6 +59,6 @@ bool CardSet<R,S>::is_empty() {
 }
 
 template <typename R, typename S>
-const std::vector< Card <R,S> > CardSet<R,S>::* CardSet<R,S>::get_cards() {
+std::vector< Card <R,S> > CardSet<R,S>::*CardSet<R,S>::get_cards() {
     return &CardSet<R,S>::cards;
 }

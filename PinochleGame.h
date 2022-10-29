@@ -18,7 +18,6 @@ enum class PinochleMelds{
     eighthundredkings, thousandaces, insuitdoublerun
 };
 
-const int meld_values[] = {10, 20, 40, 40, 40, 60, 80, 100, 150, 300, 400, 600, 800, 1000, 1500};
 
 std::ostream& operator<<(std::ostream& os, const PinochleMelds&);
 
@@ -26,6 +25,7 @@ class PinochleGame : public Game{
     public:
         PinochleGame(int argc, const char* argv[]);
         virtual int play();
+        static const int meld_values[];
 
     protected:
         PinochleDeck _pDeck; 
@@ -35,5 +35,5 @@ class PinochleGame : public Game{
         void collect_all();
 
     private:
-        void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector<PinochleMelds>);
+        void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector<PinochleMelds>&);
 };
