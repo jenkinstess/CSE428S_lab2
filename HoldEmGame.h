@@ -25,6 +25,14 @@ class HoldEmGame : public Game {
     public:
         HoldEmGame(int argc, const char* argv[]);
         virtual int play();
+
+        struct Player {
+            CardSet<HoldEmRank, Suits> hand;
+            std::string player_name;
+            HoldEmHandRank hand_rank;
+            Player(CardSet<HoldEmRank, Suits> cs, std::string& pn, HoldEmHandRank r);
+        };
+
     protected:
         HoldEmDeck deck; 
         HoldEmState state;
@@ -37,3 +45,6 @@ class HoldEmGame : public Game {
         HoldEmHandRank holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs);
 
 };
+
+void frequency_sort(std::vector<int>& nums);
+bool operator<(const HoldEmGame::Player& p1, const HoldEmGame::Player& p2);

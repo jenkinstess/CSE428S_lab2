@@ -4,6 +4,7 @@
 // Contains the definition for the constructor, the deal method, the play method, the collect all method, and the method printing out the players.
 
 #include <cstdint>
+#include <unordered_map>
 #include <algorithm>
 #include <set>
 #include "HoldEmGame.h"
@@ -21,6 +22,9 @@ HoldEmGame::HoldEmGame(int argc, const char* argv[]) : Game(argc, argv) {
 
     state = HoldEmState::preflop;
 }
+
+HoldEmGame::Player::Player(CardSet<HoldEmRank, Suits> cs, std::string& pn, HoldEmHandRank r) :
+    hand(cs), player_name(pn), hand_rank(r) {}
 
 //deals out cards to each player, then to each state that the Texas hold em game is in.
 void HoldEmGame::deal() {
@@ -99,6 +103,27 @@ int HoldEmGame::play() {
     std::cout << "BOARD (flop): ";
     board.print(std::cout, SIZESET);
 
+    std::cout << std::endl;
+    std::vector<Player> p;
+    for(long unsigned int i = 0; i < hands.size(); ++i) {
+        CardSet<HoldEmRank, Suits> bd_cpy = board, hand = hands[i];
+
+        bd_cpy >> hand;
+        bd_cpy >> hand;
+        bd_cpy >> hand;
+
+        p.push_back( Player(hand, players[i], holdem_hand_evaluation(hand)) );
+    }
+
+    std::sort(p.rbegin(), p.rend());
+
+    std::vector< Player >::iterator it;
+    for (it = p.begin(); it < p.end(); ++it) {
+        std::cout << (*it).player_name << ": " << (*it).hand_rank << std::endl;
+        (*it).hand.print(std::cout, SIZESET);
+        std::cout << std::endl;
+    }
+
     deal();
     std::cout << "BOARD (turn): ";
     board.print(std::cout, SIZESET);
@@ -147,15 +172,6 @@ void HoldEmGame::collect_all() {
 
 HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs) {
     std::vector< Card<HoldEmRank, Suits> > cards = cs.*(cs.get_cards());
-
-    /* code to test hand evaluation DELETE AT END
-    std::vector< Card<HoldEmRank, Suits> > v;
-    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::clubs));
-    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::five, Suits::clubs));
-    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::diamonds));
-    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::hearts));
-    v.push_back(Card<HoldEmRank,Suits>(HoldEmRank::ace, Suits::spades));
-    cards = v;*/
 
     if (cards.size() != 5) {
         return HoldEmHandRank::undefined;
@@ -220,6 +236,63 @@ HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits
 
     return res;
 }
+
+bool operator<(const HoldEmGame::Player& p1, const HoldEmGame::Player& p2) {
+
+    if (p1.hand_rank < p2.hand_rank) {
+        return true;
+    }
+
+    if (p1.hand_rank > p2.hand_rank) {
+        return false;
+    }
+
+    //more in depth comparison when the evaluation is equal
+    std::vector< Card<HoldEmRank, Suits> > p1_cards = p1.hand.*(p1.hand.get_cards());
+    std::vector< Card<HoldEmRank, Suits> > p2_cards = p2.hand.*(p2.hand.get_cards());
+
+    std::vector<int> p1_ranks;
+    std::vector<int> p2_ranks;
+
+    std::vector< Card<HoldEmRank, Suits> >::iterator it1;
+    for (it1 = p1_cards.begin(); it1 < p1_cards.end(); it1++) {
+        int r = (int)((*it1).rank);
+        p1_ranks.push_back(r);
+
+    }
+
+    std::vector< Card<HoldEmRank, Suits> >::iterator it2;
+    for (it2 = p2_cards.begin(); it2 < p2_cards.end(); it2++) {
+        int r = (int)((*it2).rank);
+        p2_ranks.push_back(r);
+
+    }
+
+    frequency_sort(p1_ranks);
+    frequency_sort(p2_ranks);
+
+    int p1_value = 0, p2_value = 0;
+    for (int i = 0; i < 5; i++) {
+        p1_value |= (p1_ranks[i] << (4*i));
+        p2_value |= (p2_ranks[i] << (4*i));
+    }
+
+    return p1_value < p2_value;
+}
+
+// frequency sort helper function, credit to: https://coderscat.com/leetcode-sort-array-by-increasing-frequency/
+// sorts array by increasing frequency, then by increasing value
+void frequency_sort(std::vector<int>& nums) {
+        std::unordered_map<int, int> cnt;
+
+        for (auto n : nums) {
+            cnt[n]++;
+        }
+
+        sort(nums.begin(), nums.end(), [&cnt](int a, int b) {
+            return (cnt[a] == cnt[b]) ? a < b : cnt[a] < cnt[b];
+        });
+    }
 
 std::ostream& operator<<(std::ostream& os, const HoldEmHandRank& r) {
    
