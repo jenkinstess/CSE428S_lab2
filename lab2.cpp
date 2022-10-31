@@ -25,7 +25,7 @@ std::shared_ptr<Game> create(int argc, const char* argv[]);
 int main(int argc, const char* argv[]) {
 
     if (argc < ARGSPASSED) {
-        std::cout << "usage: filename gamename playername1 playername2 ..." << std::endl;
+        std::cout << "usage: Pinochle playername1 playername2 playername3 playername4 \n OR HoldEm playername1 playername2 ... playername9" << std::endl;
         return INCORRECTINPUT;
     }
     
