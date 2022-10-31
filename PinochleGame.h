@@ -33,6 +33,7 @@ class PinochleGame : public Game{
         std::vector< CardSet<PinochleRank, Suits> > _curHand;
         void print_players();
         void collect_all();
+        void print_evaluation();
 
     private:
         void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector<PinochleMelds>&);
