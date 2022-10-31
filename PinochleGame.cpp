@@ -1,7 +1,9 @@
 // PinochleGame.cpp
 // Sam Saxon s.saxon@wustl.edu
 // Tess Jenkins jenkinstess@wustl.edu
-// Contains the definition for the constructor, the deal method, the play method, the collect all method, and the method printing out the players.
+// Contains the definition for the constructor, the deal method, the play method, the collect all method, the suit independent evaluation method, 
+//   and the method for printing out the players, their hands, and the evaluation of their hands. Overloads the left shift
+//   operator to print out an appropriate string for the name of the label and the point values associated with the label. 
 
 #include "PinochleGame.h"
 #include <bits/stdc++.h>
@@ -13,6 +15,24 @@
 #define KING 3
 #define QUEEN 2
 #define JACK 1
+#define CLUBS 0
+#define DIAMOND 1
+#define HEART 2
+#define SPADE 3
+#define ALLPRESENT 8
+#define FOURPRESENT 4
+#define TWOPRESENT 2
+#define ONEPRESENT 1
+#define THOUSANDACES 13
+#define HUNDREDACES 7
+#define EIGHTHUNDREDKINGS 12
+#define EIGHTYKINGS 6
+#define SIXHUNDREDQUEENS 11
+#define SIXTYQUEENS 5
+#define FOURHUNDREDJACKS 10
+#define FORTYJACKS 2
+#define DOUBLEPINOCHLE 9
+#define PINOCHLE 3
 
 const int PinochleGame::meld_values[] = {10, 20, 40, 40, 40, 60, 80, 100, 150, 300, 400, 600, 800, 1000, 1500};
 
@@ -54,9 +74,6 @@ int PinochleGame::play() {
     //print player names and their cards
     print_players();
 
-    //print different melds available for the different players
-    //print_evaluation();
-
     //collect cards from players
     collect_all();
 
@@ -71,6 +88,7 @@ int PinochleGame::play() {
     return play();
 }
 
+// Prints out the players, their hands, and an evalutation of their hands 
 void PinochleGame::print_players() {
     typename std::vector< CardSet<PinochleRank, Suits> >::iterator it = _curHand.begin();
     std::vector<std::string>::iterator p = Game::players.begin();
@@ -84,7 +102,7 @@ void PinochleGame::print_players() {
 
         typename std::vector< PinochleMelds >::iterator pm;
         for (pm = listMoves.begin(); pm < listMoves.end(); pm++) {
-            std::cout << (*pm) << " : " << meld_values[int(*pm)] << std:: endl; 
+            std::cout << (*pm) << std:: endl; 
         }
         std::cout << std::endl;
 
@@ -100,68 +118,69 @@ void PinochleGame::collect_all() {
     }
 }
 
+// Overloaded shift operator that prints out the appropriate string and integer value for a given meld
 std::ostream& operator<<(std::ostream& os, const PinochleMelds& pinmelds) {
    
     switch(pinmelds){
 
         case PinochleMelds::dix:
-            os << "dix " ; //<< PinochleMelds::dix;
+            os << "dix : " << PinochleGame::meld_values[int(PinochleMelds::dix)]; 
             break;
 
         case PinochleMelds::offsuitmarriage:
-            os << "offsuitmarriage "; // << PinochleMelds::offsuitmarriage;
+            os << "offsuitmarriage : " << PinochleGame::meld_values[int(PinochleMelds::offsuitmarriage)]; 
             break;
 
         case PinochleMelds::fortyjacks:
-            os << "fortyjacks " ; //<< PinochleMelds::fortyjacks;
+            os << "fortyjacks : " << PinochleGame::meld_values[int(PinochleMelds::fortyjacks)]; 
             break;
 
         case PinochleMelds::pinochle:
-            os << "pinochle " ; //<< PinochleMelds::pinochle;
+            os << "pinochle : " << PinochleGame::meld_values[int(PinochleMelds::pinochle)]; 
             break;
 
         case PinochleMelds::insuitmarriage:
-            os << "insuitmarriage "; 
+            os << "insuitmarriage : " << PinochleGame::meld_values[int(PinochleMelds::insuitmarriage)]; 
             break;
 
         case PinochleMelds::sixtyqueens:
-            os << "sixtyqueens "; 
+            os << "sixtyqueens : " << PinochleGame::meld_values[int(PinochleMelds::sixtyqueens)]; 
             break;
 
         case PinochleMelds::eightykings:
-            os << "eightykings "; 
+            os << "eightykings : " << PinochleGame::meld_values[int(PinochleMelds::eightykings)]; 
             break;
 
         case PinochleMelds::hundredaces:
-            os << "hundredaces "; 
+            os << "hundredaces : " << PinochleGame::meld_values[int(PinochleMelds::hundredaces)]; 
             break;
 
         case PinochleMelds::insuitrun:
-            os << "insuitrun " ; 
+            os << "insuitrun : " << PinochleGame::meld_values[int(PinochleMelds::insuitrun)]; 
             break;
 
         case PinochleMelds::doublepinochle:
-            os << "doublepinochle "; 
+            os << "doublepinochle : " << PinochleGame::meld_values[int(PinochleMelds::doublepinochle)];  
             break;
 
         case PinochleMelds::fourhundredjacks:
-            os << "fourhundredjacks "; 
+            os << "fourhundredjacks : " << PinochleGame::meld_values[int(PinochleMelds::fourhundredjacks)]; 
             break;
 
         case PinochleMelds::sixhundredqueens:
-            os << "sixhundredqueens " ; 
+            os << "sixhundredqueens : " << PinochleGame::meld_values[int(PinochleMelds::sixhundredqueens)]; 
             break;
 
         case PinochleMelds::eighthundredkings:
-            os << "eighthundredkings "; 
+            os << "eighthundredkings : " << PinochleGame::meld_values[int(PinochleMelds::eighthundredkings)]; 
             break;
 
         case PinochleMelds::thousandaces:
-            os << "thousandaces " ; 
+            os << "thousandaces : " << PinochleGame::meld_values[int(PinochleMelds::thousandaces)]; 
             break;
 
         case PinochleMelds::insuitdoublerun:
-            os << "insuitdoublerun "; 
+            os << "insuitdoublerun : " << PinochleGame::meld_values[int(PinochleMelds::insuitdoublerun)]; 
             break;
 
         default:
@@ -190,96 +209,96 @@ void PinochleGame::suit_independent_evaluation(const CardSet<PinochleRank, Suits
 
     std::vector< Card<PinochleRank, Suits> >::iterator it;
     for (it = t_cards.begin(); it < t_cards.end(); it++) {
-        if ((*it).rank == PinochleRank(5)) { // 5 = ace
+        if ((*it).rank == PinochleRank(ACE)) { 
             ++numAce;
             aceSuits.push_back((*it).suit);
         }
-        else if ((*it).rank == PinochleRank(3)) { // 3 = king
+        else if ((*it).rank == PinochleRank(KING)) { 
             ++numKing;
             kingSuits.push_back((*it).suit);
         }
-        else if ((*it).rank == PinochleRank(2)) { // 2 = queen
+        else if ((*it).rank == PinochleRank(QUEEN)) { 
             ++numQueen;
             queenSuits.push_back((*it).suit);
         }
-        else if ((*it).rank == PinochleRank(1)) { // 1 = jack
+        else if ((*it).rank == PinochleRank(JACK)) { 
             ++numJack;
             jackSuits.push_back((*it).suit);
         }
     }
 
-    if (numAce == 8) {
-        combList.push_back(PinochleMelds(13)); // 13 = thousandaces
+    if (numAce == ALLPRESENT) {
+        combList.push_back(PinochleMelds(THOUSANDACES)); 
     }
-    else if (numAce >= 4) {
-        //testing if the suit is found in the vector of suits. if all are found then the combincation is added
-        if (std::find(aceSuits.begin(), aceSuits.end(), Suits(0)) != aceSuits.end()) { // Suits(0) = clubs
-            if (std::find(aceSuits.begin(), aceSuits.end(), Suits(1)) != aceSuits.end()) { // Suits(1) = diamonds
-                if (std::find(aceSuits.begin(), aceSuits.end(), Suits(2)) != aceSuits.end()) { // Suits(2) = hearts
-                    if (std::find(aceSuits.begin(), aceSuits.end(), Suits(3)) != aceSuits.end()) { // Suits(3) = spades
-                        combList.push_back(PinochleMelds(7));
+    else if (numAce >= FOURPRESENT) {
+        //testing if the suit is found in the vector of suits. if all are found then the meld is added
+        if (std::find(aceSuits.begin(), aceSuits.end(), Suits(CLUBS)) != aceSuits.end()) { 
+            if (std::find(aceSuits.begin(), aceSuits.end(), Suits(DIAMOND)) != aceSuits.end()) { 
+                if (std::find(aceSuits.begin(), aceSuits.end(), Suits(HEART)) != aceSuits.end()) { 
+                    if (std::find(aceSuits.begin(), aceSuits.end(), Suits(SPADE)) != aceSuits.end()) { 
+                        combList.push_back(PinochleMelds(HUNDREDACES)); 
                     }
                 }
             }
         }
     }
 
-    if (numKing == 8) {
-        combList.push_back(PinochleMelds(12));
+    if (numKing == ALLPRESENT) {
+        combList.push_back(PinochleMelds(EIGHTHUNDREDKINGS)); 
     }  
-    else if (numKing >= 4) {
-        //testing if the suit is found in the vector of suits. if all are found then the combincation is added
-        if (std::find(kingSuits.begin(), kingSuits.end(), Suits(0)) != kingSuits.end()) { // Suits(0) = clubs
-            if (std::find(kingSuits.begin(), kingSuits.end(), Suits(1)) != kingSuits.end()) { // Suits(1) = diamonds
-                if (std::find(kingSuits.begin(), kingSuits.end(), Suits(2)) != kingSuits.end()) { // Suits(2) = hearts
-                    if (std::find(kingSuits.begin(), kingSuits.end(), Suits(3)) != kingSuits.end()) { // Suits(3) = spades
-                        combList.push_back(PinochleMelds(6));
+    else if (numKing >= FOURPRESENT) {
+        if (std::find(kingSuits.begin(), kingSuits.end(), Suits(CLUBS)) != kingSuits.end()) { 
+            if (std::find(kingSuits.begin(), kingSuits.end(), Suits(DIAMOND)) != kingSuits.end()) { 
+                if (std::find(kingSuits.begin(), kingSuits.end(), Suits(HEART)) != kingSuits.end()) { 
+                    if (std::find(kingSuits.begin(), kingSuits.end(), Suits(SPADE)) != kingSuits.end()) { 
+                        combList.push_back(PinochleMelds(EIGHTYKINGS)); 
                     }
                 }
             }
         }
     }
     
-    if (numQueen == 8) {
-        combList.push_back(PinochleMelds(11));
+    if (numQueen == ALLPRESENT) {
+        combList.push_back(PinochleMelds(SIXHUNDREDQUEENS)); 
     }
-    else if (numQueen >= 4) {
-        if (std::find(queenSuits.begin(), queenSuits.end(), Suits(0)) != queenSuits.end()) { // Suits(0) = clubs
-            if (std::find(queenSuits.begin(), queenSuits.end(), Suits(1)) != queenSuits.end()) { // Suits(1) = diamonds
-                if (std::find(queenSuits.begin(), queenSuits.end(), Suits(2)) != queenSuits.end()) { // Suits(2) = hearts
-                    if (std::find(queenSuits.begin(), queenSuits.end(), Suits(3)) != queenSuits.end()) { // Suits(3) = spades
-                        combList.push_back(PinochleMelds(5));
+    else if (numQueen >= FOURPRESENT) {
+        if (std::find(queenSuits.begin(), queenSuits.end(), Suits(CLUBS)) != queenSuits.end()) { 
+            if (std::find(queenSuits.begin(), queenSuits.end(), Suits(DIAMOND)) != queenSuits.end()) { 
+                if (std::find(queenSuits.begin(), queenSuits.end(), Suits(HEART)) != queenSuits.end()) { 
+                    if (std::find(queenSuits.begin(), queenSuits.end(), Suits(SPADE)) != queenSuits.end()) { 
+                        combList.push_back(PinochleMelds(SIXTYQUEENS));
                     }
                 }
             }
         }
     }
 
-    if (numJack == 8) {
-        combList.push_back(PinochleMelds(10));
+    if (numJack == ALLPRESENT) {
+        combList.push_back(PinochleMelds(FOURHUNDREDJACKS)); 
     }
-    else if (numJack >= 4) {
-        if (std::find(jackSuits.begin(), jackSuits.end(), Suits(0)) != jackSuits.end()) { // Suits(0) = clubs
-            if (std::find(jackSuits.begin(), jackSuits.end(), Suits(1)) != jackSuits.end()) { // Suits(1) = diamonds
-                if (std::find(jackSuits.begin(), jackSuits.end(), Suits(2)) != jackSuits.end()) { // Suits(2) = hearts
-                    if (std::find(jackSuits.begin(), jackSuits.end(), Suits(3)) != jackSuits.end()) { // Suits(3) = spades
-                        combList.push_back(PinochleMelds(2));
+    else if (numJack >= FOURPRESENT) {
+        if (std::find(jackSuits.begin(), jackSuits.end(), Suits(CLUBS)) != jackSuits.end()) { 
+            if (std::find(jackSuits.begin(), jackSuits.end(), Suits(DIAMOND)) != jackSuits.end()) { 
+                if (std::find(jackSuits.begin(), jackSuits.end(), Suits(HEART)) != jackSuits.end()) { 
+                    if (std::find(jackSuits.begin(), jackSuits.end(), Suits(SPADE)) != jackSuits.end()) {
+                        combList.push_back(PinochleMelds(FORTYJACKS)); 
                     }
                 }
             }
         }
     }
 
-    if (numJack >= 2 && numQueen >= 2){
-        if((std::count(jackSuits.begin(), jackSuits.end(), Suits(1)) == 2)
-            && (std::count(queenSuits.begin(), queenSuits.end(), Suits(3)) == 2)) {
-                combList.push_back(PinochleMelds(9));
+    if (numJack >= TWOPRESENT && numQueen >= TWOPRESENT){
+        //counts the number of the jack of diamonds and the queen of spades. if two of each found then the meld is added
+        if((std::count(jackSuits.begin(), jackSuits.end(), Suits(DIAMOND)) == TWOPRESENT)
+            && (std::count(queenSuits.begin(), queenSuits.end(), Suits(SPADE)) == TWOPRESENT)) {
+                combList.push_back(PinochleMelds(DOUBLEPINOCHLE)); 
             }
     }
-    else if (numJack >= 1 && numQueen >= 1){
-        if (std::find(jackSuits.begin(), jackSuits.end(), Suits(1)) != jackSuits.end()) {
-            if (std::find(queenSuits.begin(), queenSuits.end(), Suits(3)) != queenSuits.end()) {
-                combList.push_back(PinochleMelds(3));
+    else if (numJack >= ONEPRESENT && numQueen >= ONEPRESENT){
+        if (std::find(jackSuits.begin(), jackSuits.end(), Suits(DIAMOND)) != jackSuits.end()) {
+            if (std::find(queenSuits.begin(), queenSuits.end(), Suits(SPADE)) != queenSuits.end()) {
+                combList.push_back(PinochleMelds(PINOCHLE)); 
             }
         }
     }

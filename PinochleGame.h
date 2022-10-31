@@ -1,9 +1,10 @@
 // PinochleGame.h
 // Sam Saxon s.saxon@wustl.edu
 // Tess Jenkins jenkinstess@wustl.edu
-// Contains public delcarations for the virtual play function as well as the constructor for the class. Has protected declarations
-//  for a member variable of the pinochle deck, a vector of the current hands, the virtual function deal, the function that prints
-//  the players, and the collect all function. 
+// Contains public delcarations for the virtual play function, the constructor for the class, the enum class representing Pinochle melds, and the array associating 
+//  integer values to the PinochleMelds enum class. Has protected declarations for a member variable of the pinochle deck, a vector of the current hands, the virtual 
+//  function deal, the function that prints the players, and the collect all function. Has a private declaration for the function that completes a suit independent
+//  evaluation of a given hand.
 
 #pragma once
 #include "PinochleDeck.h"
@@ -33,7 +34,6 @@ class PinochleGame : public Game{
         std::vector< CardSet<PinochleRank, Suits> > _curHand;
         void print_players();
         void collect_all();
-        void print_evaluation();
 
     private:
         void suit_independent_evaluation(const CardSet<PinochleRank, Suits>&, std::vector<PinochleMelds>&);

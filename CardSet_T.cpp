@@ -1,7 +1,8 @@
 // CardSet_T.cpp
 // Sam Saxon s.saxon@wustl.edu
 // Tess Jenkins jenkinstess@wustl.edu
-// Contains the definitions for the print method, the >> operator, and the is_empty method.
+// Contains the definitions for the print method, the copy constructor, the >> operator, the is_empty method, and the 
+//  get cards method.
 
 #include "CardSet_T.h"
 #include <iostream>
@@ -58,6 +59,7 @@ bool CardSet<R,S>::is_empty() {
     return cards.empty();
 }
 
+// Provides access to the protected vector memeber data. This is a controlled violation of encapsulation.
 template <typename R, typename S>
 std::vector< Card <R,S> > CardSet<R,S>::*CardSet<R,S>::get_cards() {
     return &CardSet<R,S>::cards;

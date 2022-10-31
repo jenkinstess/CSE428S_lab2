@@ -1,8 +1,8 @@
 // Card_T.h
 // Sam Saxon s.saxon@wustl.edu
 // Tess Jenkins jenkinstess@wustl.edu
-// Contains template declarations for card types as well as the 
-//   shift operator. Creates the rank enumeration as well. 
+// Contains template declarations for card types, the shift operator, the nonmember function that compares ranks to determine 
+//  which is greater, and the nonmember function that compares suits to determine which is greater. Creates the rank enumeration.
 
 #pragma once
 #include "Suit.h"

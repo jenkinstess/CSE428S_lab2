@@ -1,9 +1,9 @@
 // CardSet_T.h
 // Sam Saxon s.saxon@wustl.edu
 // Tess Jenkins jenkinstess@wustl.edu
-// Contains the template creation of the CardSet. Contains the public delcarations for the print method, the >> operator, and 
-//   the a method checking if the Card Set is empty. Contains the protected declaration for a vector member variable containing the 
-//   cards.
+// Contains the template creation of the CardSet as well as the copy constructor for CardSet. Contains the public delcarations 
+//   for the print method, the >> operator, the a method checking if the Card Set is empty, and the function that gives access
+//   to the protected vector data member. Contains the protected declaration for a vector member variable containing the cards.
 
 #pragma once
 #include "Suit.h"

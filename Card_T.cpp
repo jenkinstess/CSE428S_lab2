@@ -1,7 +1,7 @@
 // Card_T.cpp
 // Sam Saxon s.saxon@wustl.edu
 // Tess Jenkins jenkinstess@wustl.edu
-// Contains template and shift operator definitions. 
+// Contains template, shift operator, and rank and suit comparision definitions. 
 
 #include "Card_T.h"
 
