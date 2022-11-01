@@ -23,6 +23,30 @@ Errors:
 Design decisions
 - In printing out the hands for each player we decided to add line breaks between each players hand for readability. 
 - In printing out the possible melds for each hand in pinochle we chose to place them a line underneath the print out of the users hand. If there were multiple melds for a hand each occupied their own line for better readability.
+- The string member of the nested struct I chose to make not a reference despite instructions because of compiler issues synthesizing default operations.
+
+- Poker Hand Evaluation Strategy: 
+    I used this site: https://jonathanhsiao.com/blog/evaluating-poker-hands-with-bit-math as reference when creating the holdem evaluation to greatly simplify the implementation with bit math
+
+    This stragegy uses 2 ints, one representing the unique ranks and one representing the frequency of each rank.
+
+        Ex. A A K K 3 
+            => card_freq = 0011 0011 0000 0000 0000 0000 0000 0000 0000 0000 0000 0001 0000
+            => unique_cards = 1100000000010
+
+    by taking card_freq % 15, most of the evaluations can be immediately determined because % 15 has the effect of adding together the values of each group of 4 bits.
+
+        Ex. for the above example, card_freq % 15 = 3 + 3 + 1 = 7 => two pair
+
+    Straights can be determined by normalizing unique_cards and checking to see if the result is 11111 (31), meaning the cards have adjacent ranks
+
+    Flushes are determined by checking if the number of unique suits is 1
+
+    For ties, the ranks are sorted first by frequency then by value and are shifted over depending on the order.
+
+        Ex. A K 3 A K sorted to => A A K K 3 => 1100 1100 1011 1011 0011
+
+    This number can be compared directly between hands with the same evaluation to determine which hand is better
 
 Observations
 - the studios were very helpful in terms of providing a base familiarity for all the main concepts covered in this lab.

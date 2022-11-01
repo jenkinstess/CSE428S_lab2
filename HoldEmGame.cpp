@@ -12,6 +12,21 @@
 #define SUCCESS 0
 #define SIZESET 100
 
+#define EVAL_SIZE 5
+#define NUM_SUITS 4
+#define RANK_BIT_WIDTH 4
+
+#define ACE_LOW_STRAIGHT (15|(1<<12))
+#define STRAIGHT 31
+
+#define MAGIC_NUM 15
+#define X_HIGH 5
+#define PAIR 6
+#define TWO_PAIR 7
+#define THREE_OF_A_KIND 9
+#define FULL_HOUSE 10
+#define FOUR_OF_A_KIND 1
+
 // HoldEmGame constructor. Pushes all the current players passed in via the command line onto the memeber variable that 
 //  is a vector containing the hands of the current players
 HoldEmGame::HoldEmGame(int argc, const char* argv[]) : Game(argc, argv) {
@@ -173,7 +188,7 @@ void HoldEmGame::collect_all() {
 HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits>& cs) {
     std::vector< Card<HoldEmRank, Suits> > cards = cs.*(cs.get_cards());
 
-    if (cards.size() != 5) {
+    if (cards.size() != EVAL_SIZE) {
         return HoldEmHandRank::undefined;
     }
 
@@ -181,36 +196,37 @@ HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits
     uint64_t card_freq = 0;
     std::set<int> suits_present;
 
+    // iterate through cards and construct unique_cards and card_freq
     std::vector< Card<HoldEmRank, Suits> >::iterator it;
     for (it = cards.begin(); it < cards.end(); it++) {
         int r = (int)((*it).rank);
         int s = (int)((*it).suit);
         
         unique_cards |= (1<<r);
-        card_freq |= ( card_freq + ( 1ULL << (4*r) ) );
+        card_freq |= ( card_freq + ( 1ULL << (NUM_SUITS*r) ) );
 
         suits_present.insert(s);
 
     }
 
     HoldEmHandRank res = HoldEmHandRank::undefined;
-    switch (card_freq % 15) {
-        case 1: // four of a kind
+    switch (card_freq % MAGIC_NUM) {
+        case FOUR_OF_A_KIND:
             res = HoldEmHandRank::fourofakind;
             break;
-        case 10: // full house
+        case FULL_HOUSE:
             res = HoldEmHandRank::fullhouse;
             break;
-        case 9: // three of a kind
+        case THREE_OF_A_KIND: 
             res = HoldEmHandRank::threeofakind;
             break;
-        case 7: // two pair
+        case TWO_PAIR: 
             res = HoldEmHandRank::twopair;
             break;
-        case 6: // pair
+        case PAIR:
             res = HoldEmHandRank::pair;
             break;
-        case 5: // high card
+        case X_HIGH:
             res = HoldEmHandRank::xhigh;
             break;
         default:
@@ -221,11 +237,12 @@ HoldEmHandRank HoldEmGame::holdem_hand_evaluation(const CardSet<HoldEmRank,Suits
 
     //normalize unique_cards to find straights
     int16_t lsb = unique_cards & (-unique_cards);
-    if ( ((unique_cards / lsb) == 31) || (unique_cards == (15|(1<<12)))) {
+    if ( ((unique_cards / lsb) == STRAIGHT) || (unique_cards == ACE_LOW_STRAIGHT)) {
         res = std::max(res, HoldEmHandRank::straight);
         is_straight = true;
     }
 
+    //flush if only 1 suit is present
     if (suits_present.size() == 1) {
         if (is_straight) {
             return HoldEmHandRank::straightflush;
@@ -268,13 +285,14 @@ bool operator<(const HoldEmGame::Player& p1, const HoldEmGame::Player& p2) {
 
     }
 
+    // sort ranks by increasing frequency then increasing value
     frequency_sort(p1_ranks);
     frequency_sort(p2_ranks);
 
     int p1_value = 0, p2_value = 0;
-    for (int i = 0; i < 5; i++) {
-        p1_value |= (p1_ranks[i] << (4*i));
-        p2_value |= (p2_ranks[i] << (4*i));
+    for (int i = 0; i < EVAL_SIZE; i++) {
+        p1_value |= (p1_ranks[i] << (RANK_BIT_WIDTH*i));
+        p2_value |= (p2_ranks[i] << (RANK_BIT_WIDTH*i));
     }
 
     return p1_value < p2_value;
